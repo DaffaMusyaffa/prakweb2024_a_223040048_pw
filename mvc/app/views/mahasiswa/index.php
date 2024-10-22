@@ -1,7 +1,5 @@
 <div class="container mt-3">
-
   <div class="row">
-
     <div class="col-lg-6">
       <?php Flasher::flash(); ?>
     </div>
@@ -19,7 +17,11 @@
         <?php foreach ($data['mhs'] as $mhs) : ?>
           <li class="list-group-item d-flex justify-content-between align-items-center">
             <?= $mhs['nama']; ?>
-            <a href="<?= BASEURL; ?>/mahasiswa/detail/<?= $mhs['id']; ?>" class="badge text-bg-primary">detail</a>
+            <div>
+              <a href="<?= BASEURL; ?>/mahasiswa/detail/<?= $mhs['id']; ?>" class="badge text-bg-primary ml-1">detail</a>
+              <a href="<?= BASEURL; ?>/mahasiswa/ubah/<?= $mhs['id']; ?>" class="badge text-bg-success ml-1" data-bs-toggle="modal" data-bs-target="#formModal">ubah</a>
+              <a href="<?= BASEURL; ?>/mahasiswa/hapus/<?= $mhs['id']; ?>" class="badge text-bg-danger ml-1" onclick="return confirm('yakin');">hapus</a>
+            </div>
           </li>
         <?php endforeach; ?>
       </ul>
