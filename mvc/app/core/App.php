@@ -1,5 +1,6 @@
-<?php
 
+
+<?php
 class App
 {
   protected $controller = 'Home';
@@ -19,7 +20,6 @@ class App
     require_once '../app/controllers/' . $this->controller . '.php';
     $this->controller = new $this->controller;
 
-
     // Method
     if (isset($url[1])) {
       if (method_exists($this->controller, $url[1])) {
@@ -29,20 +29,23 @@ class App
     }
 
     // Params
-    if (!empty($url)) {
-      $this->params = array_values($url);
+    $this->params = $url ? array_values($url) : [];
+
+    try {
+      call_user_func_array([$this->controller, $this->method], $this->params);
+    } catch (Exception $e) {
+      error_log($e->getMessage());
+      echo "Terjadi kesalahan. Silakan coba lagi nanti.";
     }
-    // jalankan controller & method, serta kirimkan params jika ada
-    call_user_func([$this->controller, $this->method], $this->params);
   }
 
-  public function parseURL()
+  protected function parseURL()
   {
     if (isset($_GET['url'])) {
       $url = rtrim($_GET['url'], '/');
       $url = filter_var($url, FILTER_SANITIZE_URL);
-      $url = explode('/', $url);
-      return $url;
+      return explode('/', $url);
     }
+    return [];
   }
 }
